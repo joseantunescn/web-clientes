@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
 import { Navbar } from './components/navbar/navbar';
-import { CadastrarCliente } from './components/cadastrar-cliente/cadastrar-cliente';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
   imports: [
     Navbar,
-    CadastrarCliente
+    RouterOutlet // permit SPA
   ],
   templateUrl: './app.html',
   styleUrl: './app.css'

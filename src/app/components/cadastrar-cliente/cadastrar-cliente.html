@@ -1,13 +1,13 @@
 <div class="container mt-5">
 
   <div class="row justify-content-center">
-    <div class="col-md-6">
+    <div class="col-lg-8">
 
       <!-- Card com sombra -->
       <div class="card shadow">
         
         <!-- Cabeçalho -->
-        <div class="card-header bg-primary text-white">
+        <div class="card-header">
           <h5 class="mb-0">Cadastrar Cliente</h5>
         </div>
 
@@ -17,25 +17,136 @@
           <form [formGroup]="formulario" (ngSubmit)="cadastrar()">
 
             <!-- Nome -->
-            <div class="mb-3">
-              <label for="nome" class="form-label">Nome</label>
-              <input 
-                type="text"
-                formControlName='nome' 
-                class="form-control" 
-                id="nome" 
-                placeholder="Digite o nome do cliente">
+            <div class="row mb-3">
+              <div class="col-md-12">
+                <label for="nome" class="form-label">Nome<span class="text-danger">*</span></label>
+                <input 
+                  type="text"
+                  formControlName="nome" 
+                  class="form-control" 
+                  id="nome" 
+                  placeholder="Digite o nome do cliente">
+              </div>
             </div>
 
-            <!-- CPF -->
-            <div class="mb-3">
-              <label for="cpf" class="form-label">CPF</label>
-              <input 
-                type="text"
-                formControlName='cpf' 
-                class="form-control" 
-                id="cpf" 
-                placeholder="Digite o CPF">
+            <!-- CPF e CEP -->
+            <div class="row mb-3">
+              <div class="col-md-6">
+                <label for="cpf" class="form-label">CPF<span class="text-danger">*</span></label>
+                <input 
+                  type="text"
+                  formControlName="cpf" 
+                  class="form-control" 
+                  id="cpf" 
+                  placeholder="Digite o CPF">
+              </div>
+
+              <div class="col-md-6">
+                <label for="cep" class="form-label">CEP<span class="text-danger">*</span></label>
+                <input 
+                  type="text"
+                  formControlName="cep" 
+                  class="form-control" 
+                  id="cep" 
+                  placeholder="Digite o CEP">
+              </div>
+            </div>
+
+            <!-- Logradouro -->
+            <div class="row mb-3">
+              <div class="col-md-12">
+                <label for="logradouro" class="form-label">Logradouro<span class="text-danger">*</span></label>
+                <input 
+                  type="text"
+                  formControlName="logradouro" 
+                  class="form-control" 
+                  id="logradouro" 
+                  placeholder="Rua, avenida, etc.">
+              </div>
+            </div>
+
+            <!-- Número e Complemento -->
+            <div class="row mb-3">
+              <div class="col-md-4">
+                <label for="numero" class="form-label">Número<span class="text-danger">*</span></label>
+                <input 
+                  type="text"
+                  formControlName="numero" 
+                  class="form-control" 
+                  id="numero">
+              </div>
+
+              <div class="col-md-8">
+                <label for="complemento" class="form-label">Complemento<span class="text-danger">*</span></label>
+                <input 
+                  type="text"
+                  formControlName="complemento" 
+                  class="form-control" 
+                  id="complemento">
+              </div>
+            </div>
+
+            <!-- Bairro -->
+            <div class="row mb-3">
+              <div class="col-md-12">
+                <label for="bairro" class="form-label">Bairro<span class="text-danger">*</span></label>
+                <input 
+                  type="text"
+                  formControlName="bairro" 
+                  class="form-control" 
+                  id="bairro">
+              </div>
+            </div>
+
+            <!-- Cidade, Estado e UF -->
+            <div class="row mb-4">
+              <div class="col-md-5">
+                <label for="cidade" class="form-label">Cidade<span class="text-danger">*</span></label>
+                <input 
+                  type="text"
+                  formControlName="cidade" 
+                  class="form-control" 
+                  id="cidade">
+              </div>
+
+              <div class="col-md-3">
+                <label for="uf" class="form-label">UF<span class="text-danger">*</span></label>
+                <select 
+                  formControlName="uf" 
+                  class="form-select" 
+                  id="uf">
+
+                  <option value="">Selecione</option>
+                  <option>AC</option>
+                  <option>AL</option>
+                  <option>AP</option>
+                  <option>AM</option>
+                  <option>BA</option>
+                  <option>CE</option>
+                  <option>DF</option>
+                  <option>ES</option>
+                  <option>GO</option>
+                  <option>MA</option>
+                  <option>MT</option>
+                  <option>MS</option>
+                  <option>MG</option>
+                  <option>PA</option>
+                  <option>PB</option>
+                  <option>PR</option>
+                  <option>PE</option>
+                  <option>PI</option>
+                  <option>RJ</option>
+                  <option>RN</option>
+                  <option>RS</option>
+                  <option>RO</option>
+                  <option>RR</option>
+                  <option>SC</option>
+                  <option>SP</option>
+                  <option>SE</option>
+                  <option>TO</option>
+
+                </select>
+              </div>
             </div>
 
             <!-- Botões -->
@@ -43,7 +154,7 @@
               <button type="reset" class="btn btn-secondary me-2">
                 Limpar
               </button>
-              <button type="submit" class="btn btn-primary">
+              <button type="submit" class="btn btn-primary" [disabled]="formulario.invalid">
                 Cadastrar
               </button>
             </div>
