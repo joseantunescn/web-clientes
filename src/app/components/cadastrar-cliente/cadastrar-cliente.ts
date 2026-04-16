@@ -1,34 +1,66 @@
+import { CommonModule } from '@angular/common';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-cadastrar-cliente',
   imports: [
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    CommonModule
   ],
   templateUrl: './cadastrar-cliente.html',
   styleUrl: './cadastrar-cliente.css',
 })
 export class CadastrarCliente {
 
+  //atributes
+  mensagemSucesso = signal<string>('');
+  mensagemErro = signal<string>('');
+
   http = inject(HttpClient)
 
   formulario = new FormGroup({
-    nome : new FormControl('', [Validators.required]),
-    cpf : new FormControl('', [Validators.required]),
-    logradouro : new FormControl('', [Validators.required]),
-    numero : new FormControl('', [Validators.required]),
-    complemento : new FormControl('', [Validators.required]),
-    bairro : new FormControl('', [Validators.required]),
-    cidade : new FormControl('', [Validators.required]),
-    uf : new FormControl('', [Validators.required]),
-    cep : new FormControl('', [Validators.required]),
+    nome: new FormControl('', [Validators.required]),
+    cpf: new FormControl('', [Validators.required, Validators.pattern('^[0-9]{11}$')]),
+    logradouro: new FormControl('', [Validators.required]),
+    numero: new FormControl('', [Validators.required]),
+    complemento: new FormControl('', [Validators.required]),
+    bairro: new FormControl('', [Validators.required]),
+    cidade: new FormControl('', [Validators.required]),
+    uf: new FormControl('', [Validators.required]),
+    cep: new FormControl('', [Validators.required, Validators.pattern('^[0-9]{5}-?[0-9]{3}$')]),
   });
 
+  buscarCep() {
+    // capture the cep value from the form
+    const cep = this.formulario.get('cep')?.value;
+
+    if (cep?.length != 8) return;
+
+    this.http.get(`https://viacep.com.br/ws/${cep}/json/`)
+      .subscribe((data: any) => {
+
+        if (data.erro) return;
+
+        this.formulario.patchValue({
+          logradouro: data.logradouro,
+          bairro: data.bairro,
+          cidade: data.localidade,
+          uf: data.uf
+        });
+
+      });
+  }
+
+
   cadastrar() {
-    
+
+    // limpando as mensagens
+    this.mensagemSucesso.set('');
+    this.mensagemErro.set('');
+
     //capturando os dados do formulário
     const request = {
       nome: this.formulario.value.nome!,
@@ -51,12 +83,12 @@ export class CadastrarCliente {
     //enviando os dados para o backend
     this.http.post('http://localhost:8081/api/cliente/criar', request, { responseType: 'text' })
       .subscribe({
-        next : (resposta) => {
-          alert(resposta);
+        next: (resposta) => {
+          this.mensagemSucesso.set(resposta);
           this.formulario.reset();
         },
         error: (e) => {
-          alert('Erro: ' + e.error);
+          this.mensagemErro.set('Erro: ' + e.error);
         }
       });
   }

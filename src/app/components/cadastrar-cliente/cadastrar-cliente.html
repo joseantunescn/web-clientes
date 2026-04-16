@@ -5,7 +5,7 @@
 
       <!-- Card com sombra -->
       <div class="card shadow">
-        
+
         <!-- Cabeçalho -->
         <div class="card-header">
           <h5 class="mb-0">Cadastrar Cliente</h5>
@@ -14,17 +14,28 @@
         <!-- Corpo -->
         <div class="card-body">
 
+          @if(mensagemSucesso()){
+          <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>Sucesso!</strong> {{mensagemSucesso()}}
+            <button type="button" class="btn-close" (click)="mensagemSucesso.set('')" aria-label="Close"></button>
+          </div>
+
+          }
+          @if(mensagemErro()){
+          <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong>Erro!</strong> {{mensagemErro()}}
+            <button type="button" class="btn-close" (click)="mensagemErro.set('')" aria-label="Close"></button>
+          </div>
+
+          }
+
           <form [formGroup]="formulario" (ngSubmit)="cadastrar()">
 
             <!-- Nome -->
             <div class="row mb-3">
               <div class="col-md-12">
                 <label for="nome" class="form-label">Nome<span class="text-danger">*</span></label>
-                <input 
-                  type="text"
-                  formControlName="nome" 
-                  class="form-control" 
-                  id="nome" 
+                <input type="text" formControlName="nome" class="form-control" id="nome"
                   placeholder="Digite o nome do cliente">
               </div>
             </div>
@@ -33,22 +44,12 @@
             <div class="row mb-3">
               <div class="col-md-6">
                 <label for="cpf" class="form-label">CPF<span class="text-danger">*</span></label>
-                <input 
-                  type="text"
-                  formControlName="cpf" 
-                  class="form-control" 
-                  id="cpf" 
-                  placeholder="Digite o CPF">
+                <input type="text" formControlName="cpf" class="form-control" id="cpf" placeholder="Digite o CPF" maxlength="11">
               </div>
 
               <div class="col-md-6">
                 <label for="cep" class="form-label">CEP<span class="text-danger">*</span></label>
-                <input 
-                  type="text"
-                  formControlName="cep" 
-                  class="form-control" 
-                  id="cep" 
-                  placeholder="Digite o CEP">
+                <input type="text" formControlName="cep" class="form-control" id="cep" placeholder="Digite o CEP" [maxlength]="8" (keyup)="buscarCep()">
               </div>
             </div>
 
@@ -56,11 +57,7 @@
             <div class="row mb-3">
               <div class="col-md-12">
                 <label for="logradouro" class="form-label">Logradouro<span class="text-danger">*</span></label>
-                <input 
-                  type="text"
-                  formControlName="logradouro" 
-                  class="form-control" 
-                  id="logradouro" 
+                <input type="text" formControlName="logradouro" class="form-control" id="logradouro"
                   placeholder="Rua, avenida, etc.">
               </div>
             </div>
@@ -69,20 +66,12 @@
             <div class="row mb-3">
               <div class="col-md-4">
                 <label for="numero" class="form-label">Número<span class="text-danger">*</span></label>
-                <input 
-                  type="text"
-                  formControlName="numero" 
-                  class="form-control" 
-                  id="numero">
+                <input type="text" formControlName="numero" class="form-control" id="numero">
               </div>
 
               <div class="col-md-8">
                 <label for="complemento" class="form-label">Complemento<span class="text-danger">*</span></label>
-                <input 
-                  type="text"
-                  formControlName="complemento" 
-                  class="form-control" 
-                  id="complemento">
+                <input type="text" formControlName="complemento" class="form-control" id="complemento">
               </div>
             </div>
 
@@ -90,11 +79,7 @@
             <div class="row mb-3">
               <div class="col-md-12">
                 <label for="bairro" class="form-label">Bairro<span class="text-danger">*</span></label>
-                <input 
-                  type="text"
-                  formControlName="bairro" 
-                  class="form-control" 
-                  id="bairro">
+                <input type="text" formControlName="bairro" class="form-control" id="bairro">
               </div>
             </div>
 
@@ -102,19 +87,12 @@
             <div class="row mb-4">
               <div class="col-md-5">
                 <label for="cidade" class="form-label">Cidade<span class="text-danger">*</span></label>
-                <input 
-                  type="text"
-                  formControlName="cidade" 
-                  class="form-control" 
-                  id="cidade">
+                <input type="text" formControlName="cidade" class="form-control" id="cidade">
               </div>
 
               <div class="col-md-3">
                 <label for="uf" class="form-label">UF<span class="text-danger">*</span></label>
-                <select 
-                  formControlName="uf" 
-                  class="form-select" 
-                  id="uf">
+                <select formControlName="uf" class="form-select" id="uf">
 
                   <option value="">Selecione</option>
                   <option>AC</option>

@@ -4,22 +4,79 @@
     <div class="col-md-12">
 
       <div class="card shadow">
-          <!-- Formulário -->
-          <form [formGroup]="formulario" (ngSubmit)="consultar()">
+        <!-- Formulário -->
+        <form [formGroup]="formulario" (ngSubmit)="consultar()">
 
-            <div class="row mb-3">
-              <div class="col-md-6">
-                <input type="text" class="form-control" formControlName="nome" 
-                  placeholder="Digite o nome do cliente desejado"/>
-              </div>
-              <div class="col-md-6">
-                <input type="submit" class="btn btn-success" value="Pesquisar clientes"
-                  [disabled]="formulario.invalid"/>
-              </div>
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <input type="text" class="form-control" formControlName="nome"
+                placeholder="Digite o nome do cliente desejado" />
             </div>
+            <div class="col-md-6">
+              <input type="submit" class="btn btn-success" value="Pesquisar clientes" [disabled]="formulario.invalid" />
+            </div>
+          </div>
 
-          </form>
-        
+        </form>
+
+          @if(mensagemSucesso()){
+          <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>Sucesso!</strong> {{mensagemSucesso()}}
+            <button type="button" class="btn-close" (click)="mensagemSucesso.set('')" aria-label="Close"></button>
+          </div>
+
+          }
+          @if(mensagemErro()){
+          <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong>Erro!</strong> {{mensagemErro()}}
+            <button type="button" class="btn-close" (click)="mensagemErro.set('')" aria-label="Close"></button>
+          </div>
+
+          }
+
+        @if(clientes().length > 0)
+        {
+
+        <!-- Tabela -->
+        <div class="table-responsive">
+          <table class="table table-sm table-striped table-hover align-middle">
+
+            <thead>
+              <tr>
+                <th>Nome do Cliente</th>
+                <th>CPF</th>
+                <th class="text-center" style="width: 180px;">Ações</th>
+              </tr>
+            </thead>
+
+            <tbody>
+
+
+
+              @for(c of clientes(); track c.id) {
+              <tr>
+                <td>{{ c.nome }}</td>
+                <td>{{ c.cpf }}</td>
+                <td>
+                  @for(e of c.enderecos; track e.id) {
+                  <div>
+                    {{ e.logradouro }}, {{ e.numero }}, {{ e.complemento }}, {{ e.bairro }},
+                    {{ e.cidade }}, {{ e.uf }}, CEP: {{ e.cep }}
+                  </div>
+                  }
+                </td>
+                <td>
+                  <button class="btn btn-sm btn-outline-primary me-1">Editar</button>
+                  <button class="btn btn-sm btn-outline-danger me-1" (click)="excluir(c.id)">Excluir</button>
+                </td>
+              </tr>
+              }
+
+            </tbody>
+
+          </table>
+        </div>
+        }
         <!-- Cabeçalho -->
         <div class="card-header">
           <h5 class="mb-0">Consultar Clientes</h5>
@@ -28,50 +85,7 @@
         <!-- Corpo -->
         <div class="card-body">
 
-          <!-- Tabela -->
-          <div class="table-responsive">
-            <table class="table table-sm table-striped table-hover align-middle">
-              
-              <thead>
-                <tr>
-                  <th>Nome do Cliente</th>
-                  <th>Email</th>
-                  <th class="text-center" style="width: 180px;">Ações</th>
-                </tr>
-              </thead>
 
-              <tbody>
-                <!-- Exemplo de linha (Angular depois pode usar *ngFor) -->
-                <tr>
-                  <td>João da Silva</td>
-                  <td>joao@email.com</td>
-                  <td class="text-center">
-                    <button class="btn btn-sm btn-warning me-2">
-                      Editar
-                    </button>
-                    <button class="btn btn-sm btn-danger">
-                      Excluir
-                    </button>
-                  </td>
-                </tr>
-
-                <tr>
-                  <td>Maria Oliveira</td>
-                  <td>maria@email.com</td>
-                  <td class="text-center">
-                    <button class="btn btn-sm btn-warning me-2">
-                      Editar
-                    </button>
-                    <button class="btn btn-sm btn-danger">
-                      Excluir
-                    </button>
-                  </td>
-                </tr>
-
-              </tbody>
-
-            </table>
-          </div>
 
         </div>
 
